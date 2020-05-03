@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tables.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Agents</title>
+</head>
+<body>
+    {{> nav}}
+    <h1 style="text-align: center;">Колекція Agents</h1>
+    <div class="wrapper">
+        <form action="/agents" method="POST">
+            <p>Додати агента</p>
+            <select name="branchId" id="">
+                {{#each branches}}
+                <option value="{{this._id}}">{{this.city}} {{this.adress}}</option>
+                {{/each}}
+            </select>
+            <input type="text" name="firstName" placeholder="Ім'я">
+            <input type="text" name="surname" placeholder="Прізвище">
+            <input type="text" name="secondName" placeholder="По-батькові">
+            <button type="submit">Зберегти</button>
+        </form>
+        <form method="POST" id="updateForm">
+            <p>Змінити агента</p>
+            <p id="agentId"></p>
+            <select name="branchId" id="updateSelect">
+                {{#each branches}}
+                <option class="updateOption" value="{{this._id}}">{{this.city}} {{this.adress}}</option>
+                {{/each}}
+            </select>
+            <input type="text" name="firstName" id="updateFirstName" placeholder="Ім'я">
+            <input type="text" name="surname" id="updateSurname" placeholder="Прізвище">
+            <input type="text" name="secondName" id="updateSecondName" placeholder="По-батькові">
+            <button id="updateButton" disabled type="submit">Зберегти</button>
+        </form>
+    </div>
+    <table style="width: 100%;">
+        <tr>
+            <th>ID</th>
+            <th>branchId</th>
+            <th>Прізвище</th>
+            <th>Ім'я</th>
+            <th>По-батькові</th>
+            <th>Дії</th>
+        </tr>
+        {{#each agents}}
+            <tr>
+                <td>{{this._id}}</td>
+                <td>{{this.branchId}}</td>
+                <td>{{this.surname}}</td>
+                <td>{{this.firstName}}</td>
+                <td>{{this.secondName}}</td>
+                <td><button data-id="{{this._id}}" class="update">Змінити</button><button data-id="{{this._id}}" class="delete">Видалити</button></td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
+<script>
+    document.querySelectorAll('.update').forEach(button => button.addEventListener('click', updateForm));
+    document.querySelectorAll('.delete').forEach(button => button.addEventListener('click', deleteAgent));
+    function updateForm(e) {
+        const agentId = e.target.getAttribute('data-id');
+        document.querySelectorAll('.updateOption').forEach(option => option.removeAttribute('selected'));
+        document.getElementById('agentId').innerHTML = agentId;
+        document.getElementById('updateButton').removeAttribute('disabled');
+        document.getElementById('updateForm').setAttribute('action', `agents/${agentId}`);
+        fetch(`/agents/${agentId}`, {method: 'GET'})
+        .then(res => res.json())
+        .then(agent => {
+            document.getElementById('updateFirstName').setAttribute('value', agent.firstName);
+            document.getElementById('updateSurname').setAttribute('value', agent.surname);
+            document.getElementById('updateSecondName').setAttribute('value', agent.secondName);
+            document.querySelectorAll('.updateOption')
+            .forEach(option => option.getAttribute('value') === String(agent.branchId) ? option.setAttribute('selected', 'selected') : console.log(option.getAttribute('value')));
+        });
+    }
+    function deleteAgent(e){
+        let agentId = e.target.getAttribute('data-id');
+        fetch(`/agents/${agentId}`, {method: 'DELETE'}).catch((e) => console.log(e));
+        window.location = window.location.href; // update window
+    }
+</script>
+</html>

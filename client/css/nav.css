@@ -1,0 +1,15 @@
+ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-transform: uppercase;
+    list-style-type: none;
+}
+
+ul li a {
+    text-decoration: none;
+}
+
+nav {
+    margin-bottom: 60px;
+}

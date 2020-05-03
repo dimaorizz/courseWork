@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tables.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Deals</title>
+</head>
+<body>
+    {{> nav}}
+    <table style="width: 100%;">
+        <tr>
+            <th>ID</th>
+            <th>Автомобіль</th>
+            <th>Клієнт</th>
+            <th>Кількість днів прокату</th>
+            <th>Історія</th>
+            <th>Дії</th>
+        </tr>
+        {{#each deals}}
+            <tr>
+                <td>{{this._id}}</td>
+                <td>{{this.carId}}</td>
+                <td>{{this.clientId}}</td>
+                <td>{{this.rentalDays}}</td>
+                <td>
+                    <table>
+                        <tr>
+                            <th>Статус</th>
+                            <th>Філіал</th>
+                            <th>Агент</th>
+                            <th>Дата</th>
+                            <th>Дії</th>
+                        </tr>
+                        <tr>
+                            {{#each this.history}}
+                            <td>{{this.status}}</td>
+                            <td>{{this.branchId}}</td>
+                            <td>{{this.agentId}}</td>
+                            <td>{{this.date}}</td>
+                            <td>
+                                <button data-id="{{this._id}}" class="delete">Змінити</button>
+                                <button data-id="{{this._id}}" class="update">Видалити </button>
+                            </td>
+                            {{/each}}
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <button data-id="{{this._id}}" class="delete">Додати історію</button>
+                    <button data-id="{{this._id}}" class="update">Змінити </button>
+                    <button data-id="{{this._id}}" class="delete">Видалити</button>
+                </td>
+            </tr>
+        {{/each}}
+</body>
+</html>

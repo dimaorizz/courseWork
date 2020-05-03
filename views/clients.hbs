@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tables.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Clients</title>
+</head>
+<body>
+    {{> nav}}
+    <h1 style="text-align: center;">Колекція Clients</h1>
+    <div class="wrapper">
+        <form action="/clients" method="POST">
+            <p>Додати Клієнта</p>
+            <input type="text" name="firstName" placeholder="Ім'я">
+            <input type="text" name="surname" placeholder="Прізвище">
+            <input type="text" name="secondName" placeholder="По-батькові">
+            <input type="text" name="phone" placeholder="Телефон">
+            <input type="number" name="successfulDeals" placeholder="Успішні угоди">
+            <input type="number" name="failedDeals" placeholder="Порушені угоди">
+            <button type="submit">Зберегти</button>
+        </form>
+        <form method="POST" id="updateForm">
+            <p>Змінити дані клієнта</p>
+            <p id="clientId"></p>
+            <input type="text" name="firstName" id="updateFirstName" placeholder="Ім'я">
+            <input type="text" name="surname" id="updateSurname" placeholder="Прізвище">
+            <input type="text" name="secondName" id="updateSecondName" placeholder="По-батькові">
+            <input type="text" name="phone" id="updatePhone" placeholder="Телефон">
+            <input type="number" name="successfulDeals" id="updateSuccessfulDeals" placeholder="Успішні угоди">
+            <input type="number" name="failedDeals" id="updateFailedDeals" placeholder="Порушені угоди">
+            <button type="submit" disabled id="updateButton">Зберегти</button>
+        </form>
+    </div>
+    <table style="width: 100%;">
+        <tr>
+            <th>ID</th>
+            <th>Прізвище</th>
+            <th>Ім'я</th>
+            <th>По-батькові</th>
+            <th>Телефон</th>
+            <th>Успішні угоди</th>
+            <th>Порушені угоди</th>
+            <th>Дії</th>
+        </tr>
+        {{#each clients}}
+            <tr>
+                <td>{{this._id}}</td>
+                <td>{{this.surname}}</td>
+                <td>{{this.firstName}}</td>
+                <td>{{this.secondName}}</td>
+                <td>{{this.phone}}</td>
+                <td>{{this.successfulDeals}}</td>
+                <td>{{this.failedDeals}}</td>
+                <td><button data-id="{{this._id}}" class="update">Змінити</button><button data-id="{{this._id}}" class="delete">Видалити</button></td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
+<script>
+    document.querySelectorAll('.update').forEach(button => button.addEventListener('click', updateForm));
+    document.querySelectorAll('.delete').forEach(button => button.addEventListener('click', deleteClient));
+    function updateForm(e) {
+        const clientId = e.target.getAttribute('data-id');
+        document.getElementById('clientId').innerHTML = clientId;
+        document.getElementById('updateButton').removeAttribute('disabled');
+        document.getElementById('updateForm').setAttribute('action', `clients/${clientId}`);
+        fetch(`/clients/${clientId}`, {method: 'GET'})
+        .then(res => res.json())
+        .then(client => {
+            document.getElementById('updateFirstName').setAttribute('value', client.firstName);
+            document.getElementById('updateSurname').setAttribute('value', client.surname);
+            document.getElementById('updateSecondName').setAttribute('value', client.secondName);
+            document.getElementById('updatePhone').setAttribute('value', client.phone);
+            document.getElementById('updateSuccessfulDeals').setAttribute('value', client.successfulDeals);
+            document.getElementById('updateFailedDeals').setAttribute('value', client.failedDeals);
+        });
+    }
+    function deleteClient(e){
+        let clientId = e.target.getAttribute('data-id');
+        fetch(`/clients/${clientId}`, {method: 'DELETE'}).catch((e) => console.log(e));
+        window.location = window.location.href; // update window
+    }
+</script>
+</html>

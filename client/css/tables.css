@@ -1,0 +1,25 @@
+table {
+    margin-top: 20px;
+}
+table, th, td {
+    border: 1px solid #ffffff;
+    border-collapse: collapse;
+    text-align: center;
+}
+th, td {
+    padding: 5px;
+}
+table button {
+    width: 120px;
+    height: 40px;
+    background-color: #ffffff;
+    color: #14171a;
+    border-radius: 10px;
+    margin: 4px;
+}
+table button:hover {
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #14171a;
+    transition: .3s;
+}

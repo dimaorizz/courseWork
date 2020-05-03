@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tables.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Branches</title>
+</head>
+<body>
+    {{> nav}}
+    <h1 style="text-align: center;">Колекція Branches</h1>
+    <div class="wrapper">
+        <form action="/branches" method="POST">
+            <p>Додати філіал</p>
+            <input type="text" name="country" placeholder="Країна">
+            <input type="text" name="city" placeholder="Місто">
+            <input type="text" name="adress" placeholder="Адреса">
+            <button type="submit">Зберегти</button>
+        </form>
+        <form method="POST" id="updateForm">
+            <p>Змінити філіал</p>
+            <p id="branchId"></p>
+            <input type="text" id="updateCountry" name="country" placeholder="Країна">
+            <input type="text" id="updateCity" name="city" placeholder="Місто">
+            <input type="text" id="updateAdress" name="adress" placeholder="Адреса">
+            <button id="updateButton" disabled type="submit">Зберегти</button>
+        </form>
+    </div>
+    <table style="width: 100%;">
+        <tr>
+            <th>ID</th>
+            <th>Країна</th>
+            <th>Місто</th>
+            <th>Адреса</th>
+            <th>Дії</th>
+        </tr>
+        {{#each branches}}
+            <tr>
+                <td>{{this._id}}</td>
+                <td>{{this.country}}</td>
+                <td>{{this.city}}</td>
+                <td>{{this.adress}}</td>
+                <td><button data-id="{{this._id}}" class="update">Змінити</button><button data-id="{{this._id}}" class="delete">Видалити</button></td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
+<script>
+    document.querySelectorAll('.update').forEach(button => button.addEventListener('click', updateForm));
+    document.querySelectorAll('.delete').forEach(button => button.addEventListener('click', deleteAgent));
+    function updateForm(e) {
+        const branchId = e.target.getAttribute('data-id');
+        document.getElementById('updateButton').removeAttribute('disabled');
+        document.getElementById('branchId').innerHTML = branchId;
+        document.getElementById('updateForm').setAttribute('action', `branches/${branchId}`);
+        fetch(`/branches/${branchId}`, {method: 'GET'})
+        .then(res => res.json())
+        .then(branch => {
+            document.getElementById('updateCountry').setAttribute('value', branch.country);
+            document.getElementById('updateCity').setAttribute('value', branch.city);
+            document.getElementById('updateAdress').setAttribute('value', branch.adress);
+        });
+    }
+    function deleteAgent(e){
+        let branchId = e.target.getAttribute('data-id');
+        fetch(`/branches/${branchId}`, {method: 'DELETE'}).catch((e) => console.log(e));
+        window.location = window.location.href; // update window
+    }
+</script>
+</html>

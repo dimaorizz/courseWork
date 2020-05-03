@@ -1,0 +1,46 @@
+form {
+    border: 1px solid #dcdcdd;
+    width: 300px;
+    padding: 10px;
+    color: black;
+    margin-left: 40px;
+}
+form p {
+    font-size: 1.2em;
+    text-align: center;
+}
+form button {
+    color: #000000;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin-top: 10px;
+}
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
+select, input {    
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    margin: 3px;
+    background-color: #14171a;;
+}
+::placeholder {
+    color: #ffffff;
+}
+form button {
+    width: 120px;
+    height: 40px;
+    background-color: #ffffff;
+    color: #14171a;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+form button:hover {
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #14171a;
+    transition: .3s;
+}
