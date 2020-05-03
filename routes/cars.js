@@ -8,22 +8,28 @@ router.get('/', async (req, res) => {
     res.status(200).render('cars', { cars, branches });
 });
 
+router.get('/:id', async (req, res) => {
+    const carId = req.params.id;
+    const car = await Cars.findOne({ _id: carId });
+    res.status(200).send(car);
+});
+
 router.post('/', async (req, res) => {
-    const car = {
+    const car = new Cars({
         branchId: req.body.branchId,
         brand: req.body.brand,
         color: req.body.color,
         description: req.body.description,
         cost: req.body.cost,
         isActive: Boolean(req.body.isActive)
-    };
+    });
     try {
-        await Cars.save();
+        await car.save();
     } catch (error) {
         console.error('Car saving error: ', error);
         res.status(501).send('Unexpected error');
     }
-    res.status(201).send(car);
+    res.status(201).redirect('/cars');
 });
 
 router.post('/:id', async (req, res) => {
@@ -34,7 +40,7 @@ router.post('/:id', async (req, res) => {
         color: req.body.color,
         description: req.body.description,
         cost: req.body.cost,
-        isActive: req.body.isActive
+        isActive: Boolean(req.body.isActive)
     };
     try {
         await Cars.updateOne( {_id: id}, editedCar);
@@ -42,7 +48,7 @@ router.post('/:id', async (req, res) => {
         console.error('Car updating error: ', error);
         res.status(501).send('Unexpected error');
     }
-    res.status(200).send();
+    res.status(200).redirect('/cars');
 });
 
 router.delete('/:id', async (req, res) => {

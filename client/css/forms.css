@@ -44,3 +44,13 @@ form button:hover {
     background-color: #14171a;
     transition: .3s;
 }
+
+label {
+    display: flex;
+    justify-content: flex-start;
+}
+
+input[type="checkbox"] {
+    width: 30px;
+    height: 18px;
+}
