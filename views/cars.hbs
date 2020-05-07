@@ -20,10 +20,10 @@
                 <option value="{{this._id}}">{{this.city}} {{this.adress}}</option>
                 {{/each}}
             </select>
-            <input type="text" name="brand" placeholder="Марка">
-            <input type="text" name="color" placeholder="Колір">
-            <input  name="description" placeholder="Опис">
-            <input type="text" name="cost" placeholder="Ціна">
+            <input required type="text" name="brand" placeholder="Марка">
+            <input required type="text" name="color" placeholder="Колір">
+            <input required  name="description" placeholder="Опис">
+            <input required type="text" name="cost" placeholder="Ціна">
             <label for="isActive">Доступність
                 <input type="checkbox" name="isActive" placeholder="Доступність" id="isActive">
             </label>
@@ -37,10 +37,10 @@
                 <option class="updateOption" value="{{this._id}}">{{this.city}} {{this.adress}}</option>
                 {{/each}}
             </select>
-            <input type="text" id="updateBrand" name="brand" placeholder="Марка">
-            <input type="text" id="updateColor" name="color" placeholder="Колір">
-            <input  name="description" id="updateDescription" placeholder="Опис">
-            <input type="text" id="updateCost" name="cost" placeholder="Ціна">
+            <input required type="text" id="updateBrand" name="brand" placeholder="Марка">
+            <input required type="text" id="updateColor" name="color" placeholder="Колір">
+            <input required name="description" id="updateDescription" placeholder="Опис">
+            <input required type="text" id="updateCost" name="cost" placeholder="Ціна">
             <label for="isActive">Доступність
                 <input type="checkbox" id="updateIsActive" name="isActive" placeholder="Доступність" id="updateIsActive">
             </label>

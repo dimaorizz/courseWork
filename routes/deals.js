@@ -1,54 +1,75 @@
 const router = require('express').Router();
-const collectionName = 'deals';
+const Deals = require('../models/Deals');
+const Branches = require('../models/Branches');
+const Agents = require('../models/Agents');
+const Cars = require('../models/Cars');
+const Clients = require('../models/Clients');
 
 router.get('/', async (req, res) => {
-    const deals = await db.collection(collectionName).find({ }).toArray();
-    res.status(200).render('deals',  { deals });
+    const [deals, branches, agents, cars, clients] = await Promise.all(
+        [Deals.find(), Branches.find(), Agents.find(), Cars.find(), Clients.find()]
+    );
+    res.status(200).render('deals',  { deals, branches, agents, cars, clients });
 });
 
 router.post('/', async (req, res) => {
-    const deal = {
-        carId: new mongodb.ObjectID(req.body.carId),
-        clientId: new mongodb.ObjectID(req.body.clientId),
-        rentalDays: req.body.rentalDays,
+    const rentalDays = req.body.rentalDays > 0 ? req.body.rentalDays : 0;
+    const deal = new Deals({
+        carId: req.body.carId,
+        clientId: req.body.clientId,
+        rentalDays: rentalDays,
         totalCost: req.body.totalCost,
         history: [{
             status: 'Видано',
-            agentId: new mongodb.ObjectID(req.body.agentId),
-            branchId: new mongodb.ObjectID(req.body.branchId),
-            date: new Date().now()
+            agentId: req.body.agentId,
+            branchId: req.body.branchId,
         }]
-    };
+    });
     try {
-        await db.collection(collectionName).insertOne(deal);
+        await deal.save();
     } catch (error) {
         console.error('Deals saving error: ', error);
         res.status(501).send('Unexpected error');
     }
-    res.status(201).send(deal);
+    res.status(201).redirect('/deals');
+});
+
+router.post('/close/:id', async (req, res) => {
+    const dealId = req.params.id;
+    const closedDeal = {
+        status: 'Прийнято',
+        agentId: req.body.agentId,
+        branchId: req.body.branchId
+    };
+    console.log(closedDeal)
+    const deal = await Deals.findOne({_id: dealId});
+    const history = deal.history;
+    history.push(closedDeal);
+    await Deals.updateOne({_id: dealId}, {history});
+    res.redirect('/deals');
 });
 
 router.post('/:id', async (req, res) => {
-    const id = new mongodb.ObjectID(req.params.id);
+    const id = req.params.id;
     const editedDeal = {
-        carId: new mongodb.ObjectID(req.body.carId),
-        clientId: new mongodb.ObjectID(req.body.clientId),
+        carId: req.body.carId,
+        clientId: req.body.clientId,
         rentalDays: req.body.rentalDays,
         totalCost: req.body.totalCost
     };
     try {
-        await db.collection(collectionName).updateOne( {_id: id}, { $set: editedDeal });
+        await Deals.updateOne( {_id: id}, editedDeal );
     } catch (error) {
         console.error('Deal updating error: ', error);
         res.status(501).send('Unexpected error');
     }
-    res.status(200).send();
+    res.status(200).redirect('/deals');
 });
 
 router.delete('/:id', async (req, res) => {
-    const id = new mongodb.ObjectID(req.params.id);
+    const id = req.params.id;
     try {
-        await db.collection(collectionName).deleteOne( { _id: id } );
+        await Deals.deleteOne( { _id: id } );
     } catch (error) {
         console.error('Deal deleting error: ', error);
         res.status(501).send('Unexpected error');

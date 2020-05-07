@@ -15,17 +15,17 @@
     <div class="wrapper">
         <form action="/branches" method="POST">
             <p>Додати філіал</p>
-            <input type="text" name="country" placeholder="Країна">
-            <input type="text" name="city" placeholder="Місто">
-            <input type="text" name="adress" placeholder="Адреса">
+            <input required type="text" name="country" placeholder="Країна">
+            <input required type="text" name="city" placeholder="Місто">
+            <input required type="text" name="adress" placeholder="Адреса">
             <button type="submit">Зберегти</button>
         </form>
         <form method="POST" id="updateForm">
             <p>Змінити філіал</p>
             <p id="branchId"></p>
-            <input type="text" id="updateCountry" name="country" placeholder="Країна">
-            <input type="text" id="updateCity" name="city" placeholder="Місто">
-            <input type="text" id="updateAdress" name="adress" placeholder="Адреса">
+            <input required type="text" id="updateCountry" name="country" placeholder="Країна">
+            <input required type="text" id="updateCity" name="city" placeholder="Місто">
+            <input required type="text" id="updateAdress" name="adress" placeholder="Адреса">
             <button id="updateButton" disabled type="submit">Зберегти</button>
         </form>
     </div>

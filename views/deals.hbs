@@ -11,6 +11,48 @@
 </head>
 <body>
     {{> nav}}
+    <div class="wrapper">
+            <form action="/deals" method="POST">
+                <p>Відкрити угоду</p>
+                <select name="carId">
+                    {{#each cars}}
+                    <option value="{{this._id}}">{{this.brand}} {{this.cost}}$</option>
+                    {{/each}}
+                </select>
+                <select name="clientId">
+                    {{#each clients}}
+                    <option value="{{this._id}}">{{this.surname}} {{this.firstName}} {{this.secondName}}: {{this.phone}}</option>
+                    {{/each}}
+                </select>
+                <input required type="number" name="rentalDays" placeholder="Кількість днів">
+                <select name="agentId">
+                    {{#each agents}}
+                    <option value="{{this._id}}">{{this.surname}} {{this.firstName}} {{this.secondName}}</option>
+                    {{/each}}
+                </select>
+                <select name="branchId">
+                    {{#each branches}}
+                    <option value="{{this._id}}">{{this.country}} {{this.city}} {{this.adress}}</option>
+                    {{/each}}
+                </select>
+                <button type="submit">Зберегти</button>
+            </form>
+            <form id="closeDealForm" method="post">
+                <p>Закрити угоду</p>
+                <p id="dealId"></p>
+                <select name="agentId" id="closeAgentId">
+                    {{#each agents}}
+                    <option class="closeAgent" value="{{this._id}}">{{this.surname}} {{this.firstName}} {{this.secondName}}</option>
+                    {{/each}}
+                </select>
+                <select name="branchId" id="closeBranchId">
+                    {{#each branches}}
+                    <option class="closeBranch" value="{{this._id}}">{{this.country}} {{this.city}} {{this.adress}}</option>
+                    {{/each}}
+                </select>
+                <button id="closeButton" type="submit">Зберегти</button>
+            </form>
+        </div>
     <table style="width: 100%;">
         <tr>
             <th>ID</th>
@@ -33,28 +75,41 @@
                             <th>Філіал</th>
                             <th>Агент</th>
                             <th>Дата</th>
-                            <th>Дії</th>
                         </tr>
-                        <tr>
-                            {{#each this.history}}
-                            <td>{{this.status}}</td>
-                            <td>{{this.branchId}}</td>
-                            <td>{{this.agentId}}</td>
-                            <td>{{this.date}}</td>
-                            <td>
-                                <button data-id="{{this._id}}" class="delete">Змінити</button>
-                                <button data-id="{{this._id}}" class="update">Видалити </button>
-                            </td>
-                            {{/each}}
-                        </tr>
+                        {{#each this.history}}
+                            <tr>
+                                <td>{{this.status}}</td>
+                                <td>{{this.branchId}}</td>
+                                <td>{{this.agentId}}</td>
+                                <td>{{this.date}}</td>
+                            </tr>
+                        {{/each}}
                     </table>
                 </td>
                 <td>
-                    <button data-id="{{this._id}}" class="delete">Додати історію</button>
-                    <button data-id="{{this._id}}" class="update">Змінити </button>
+                    <button data-id="{{this._id}}" class="close">Закрити угоду</button>
                     <button data-id="{{this._id}}" class="delete">Видалити</button>
                 </td>
             </tr>
         {{/each}}
+
+    <script>
+        document.querySelectorAll('.close').forEach(button => button.addEventListener('click', closeDeal));
+        document.querySelectorAll('.delete').forEach(button => button.addEventListener('click', deleteDeal));
+
+        function closeDeal(e) {
+            const dealId = e.target.getAttribute('data-id');
+            document.getElementById('dealId').innerHTML = dealId;
+            document.getElementById('closeButton').removeAttribute('disabled');
+            document.getElementById('closeDealForm').setAttribute('action', `deals/close/${dealId}`);
+        }
+
+        function deleteDeal(e) {
+            let dealId = e.target.getAttribute('data-id');
+            fetch(`/deals/${dealId}`, {method: 'DELETE'}).catch((e) => console.log(e));
+            window.location = window.location.href; // update window
+        }
+
+    </script>
 </body>
 </html>

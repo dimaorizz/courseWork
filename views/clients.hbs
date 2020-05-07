@@ -15,23 +15,23 @@
     <div class="wrapper">
         <form action="/clients" method="POST">
             <p>Додати Клієнта</p>
-            <input type="text" name="firstName" placeholder="Ім'я">
-            <input type="text" name="surname" placeholder="Прізвище">
-            <input type="text" name="secondName" placeholder="По-батькові">
-            <input type="text" name="phone" placeholder="Телефон">
-            <input type="number" name="successfulDeals" placeholder="Успішні угоди">
-            <input type="number" name="failedDeals" placeholder="Порушені угоди">
+            <input required type="text" name="firstName" placeholder="Ім'я">
+            <input required type="text" name="surname" placeholder="Прізвище">
+            <input required type="text" name="secondName" placeholder="По-батькові">
+            <input required type="text" name="phone" placeholder="Телефон">
+            <input required type="number" name="successfulDeals" placeholder="Успішні угоди">
+            <input required type="number" name="failedDeals" placeholder="Порушені угоди">
             <button type="submit">Зберегти</button>
         </form>
         <form method="POST" id="updateForm">
             <p>Змінити дані клієнта</p>
             <p id="clientId"></p>
-            <input type="text" name="firstName" id="updateFirstName" placeholder="Ім'я">
-            <input type="text" name="surname" id="updateSurname" placeholder="Прізвище">
-            <input type="text" name="secondName" id="updateSecondName" placeholder="По-батькові">
-            <input type="text" name="phone" id="updatePhone" placeholder="Телефон">
-            <input type="number" name="successfulDeals" id="updateSuccessfulDeals" placeholder="Успішні угоди">
-            <input type="number" name="failedDeals" id="updateFailedDeals" placeholder="Порушені угоди">
+            <input required type="text" name="firstName" id="updateFirstName" placeholder="Ім'я">
+            <input required type="text" name="surname" id="updateSurname" placeholder="Прізвище">
+            <input required type="text" name="secondName" id="updateSecondName" placeholder="По-батькові">
+            <input required type="text" name="phone" id="updatePhone" placeholder="Телефон">
+            <input required type="number" name="successfulDeals" id="updateSuccessfulDeals" placeholder="Успішні угоди">
+            <input required type="number" name="failedDeals" id="updateFailedDeals" placeholder="Порушені угоди">
             <button type="submit" disabled id="updateButton">Зберегти</button>
         </form>
     </div>

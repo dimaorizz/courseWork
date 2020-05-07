@@ -20,9 +20,9 @@
                 <option value="{{this._id}}">{{this.city}} {{this.adress}}</option>
                 {{/each}}
             </select>
-            <input type="text" name="firstName" placeholder="Ім'я">
-            <input type="text" name="surname" placeholder="Прізвище">
-            <input type="text" name="secondName" placeholder="По-батькові">
+            <input required type="text" name="firstName" placeholder="Ім'я">
+            <input required type="text" name="surname" placeholder="Прізвище">
+            <input required type="text" name="secondName" placeholder="По-батькові">
             <button type="submit">Зберегти</button>
         </form>
         <form method="POST" id="updateForm">
@@ -33,9 +33,9 @@
                 <option class="updateOption" value="{{this._id}}">{{this.city}} {{this.adress}}</option>
                 {{/each}}
             </select>
-            <input type="text" name="firstName" id="updateFirstName" placeholder="Ім'я">
-            <input type="text" name="surname" id="updateSurname" placeholder="Прізвище">
-            <input type="text" name="secondName" id="updateSecondName" placeholder="По-батькові">
+            <input required type="text" name="firstName" id="updateFirstName" placeholder="Ім'я">
+            <input required type="text" name="surname" id="updateSurname" placeholder="Прізвище">
+            <input required type="text" name="secondName" id="updateSecondName" placeholder="По-батькові">
             <button id="updateButton" disabled type="submit">Зберегти</button>
         </form>
     </div>
