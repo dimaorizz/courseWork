@@ -10,6 +10,7 @@ const clientsRoute = require('./routes/clients');
 const carsRoute = require('./routes/cars');
 const agentsRoute = require('./routes/agents');
 const dealsRoute = require('./routes/deals');
+const reportRoute = require('./routes/report');
 
 const app = express(); // declaring express app
 const PORT = process.env.PORT || 3000; // declaring default port
@@ -28,6 +29,7 @@ app.use('/clients', clientsRoute);
 app.use('/cars', carsRoute);
 app.use('/agents', agentsRoute);
 app.use('/deals', dealsRoute);
+app.use('/report', reportRoute);
 // Listening requests on port 3000
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);

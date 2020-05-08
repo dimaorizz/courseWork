@@ -8,6 +8,46 @@ router.get('/', async (req, res) => {
     res.status(200).render('cars', { cars, branches });
 });
 
+router.get('/less/:cost', async(req, res) => {
+    const branches = await Branches.find({ });
+    const cars = await Cars.aggregate([
+        {
+            $match: {
+                cost: {
+                    $lt: Number(req.params.cost)
+                }
+            }
+        }
+    ])
+    res.render('cars', { cars, branches} )
+});
+
+router.get('/greater/:cost', async(req, res) => {
+    const branches = await Branches.find({ });
+    const cars = await Cars.aggregate([
+        {
+            $match: {
+                cost: {
+                    $gt: Number(req.params.cost)
+                }
+            }
+        }
+    ])
+    res.render('cars', { cars, branches} )
+});
+
+router.get('/active', async(req, res) => {
+    const branches = await Branches.find({ });
+    const cars = await Cars.aggregate([
+        {
+            $match: {
+                isActive: true
+            }
+        }
+    ])
+    res.render('cars', { cars, branches} )
+});
+
 router.get('/:id', async (req, res) => {
     const carId = req.params.id;
     const car = await Cars.findOne({ _id: carId });

@@ -6,6 +6,30 @@ router.get('/', async (req, res) => {
     res.status(200).render('clients', { clients });
 });
 
+router.get('/phone?', async(req, res) => {
+    const phone = req.query.value.toString();
+    const clients = await Clients.aggregate([
+        {
+            $lookup: {
+                phone: phone
+            }
+        }
+    ]);
+    res.render('clients', { clients } )
+});
+
+router.get('/surname?', async(req, res) => {
+    const surname = req.query.value.toString();
+    const clients = await Clients.aggregate([
+        {
+            $match: {
+                surname: surname
+            }
+        }
+    ]);
+    res.render('clients', { clients } )
+});
+
 router.get('/:id', async (req, res) => {
     const client = await Clients.findOne({ _id: req.params.id });
     res.status(200).send(client);

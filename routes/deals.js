@@ -12,6 +12,21 @@ router.get('/', async (req, res) => {
     res.status(200).render('deals',  { deals, branches, agents, cars, clients });
 });
 
+router.get('/client?', async (req, res) => {
+    const surname = req.query.surname;
+    const client = await Clients.findOne({ surname: surname });
+    const [deals, branches, agents, cars, clients] = await Promise.all(
+        [Deals.aggregate([
+            {
+                $match: {
+                    clientId: client._id
+                }
+            }
+        ]), Branches.find(), Agents.find(), Cars.find(), Clients.find()]
+    );
+    res.status(200).render('deals',  { deals, branches, agents, cars, clients });
+});
+
 router.post('/', async (req, res) => {
     const rentalDays = req.body.rentalDays > 0 ? req.body.rentalDays : 0;
     const deal = new Deals({
@@ -41,7 +56,6 @@ router.post('/close/:id', async (req, res) => {
         agentId: req.body.agentId,
         branchId: req.body.branchId
     };
-    console.log(closedDeal)
     const deal = await Deals.findOne({_id: dealId});
     const history = deal.history;
     history.push(closedDeal);

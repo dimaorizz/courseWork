@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/tables.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Report</title>
+</head>
+<body>
+    {{> nav}}
+    <h1 style="text-align: center;">Звіт за місяць</h1>
+    <h2 style="text-align: center;">Закриті угоди</h2>
+    <table style="width: 100%;">
+        <tr>
+            <th>ID</th>
+            <th>Автомобіль</th>
+            <th>Клієнт</th>
+            <th>Кількість днів прокату</th>
+            <th>Історія</th>
+        </tr>
+        {{#each closedDeals}}
+            <tr>
+                <td>{{this._id}}</td>
+                <td>{{this.carId}}</td>
+                <td>{{this.clientId}}</td>
+                <td>{{this.rentalDays}}</td>
+                <td>
+                    <table>
+                        <tr>
+                            <th>Статус</th>
+                            <th>Філіал</th>
+                            <th>Агент</th>
+                            <th>Дата</th>
+                        </tr>
+                        {{#each this.history}}
+                            <tr>
+                                <td>{{this.status}}</td>
+                                <td>{{this.branchId}}</td>
+                                <td>{{this.agentId}}</td>
+                                <td>{{this.date}}</td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </td>
+            </tr>
+        {{/each}}
+        </table>
+        <p>Отримано: {{monthIncome}}$</p>
+        <h2 style="text-align: center;">Невикористані автомобілі</h2>
+        <table style="width: 100%;">
+        <tr>
+            <th>ID</th>
+            <th>branchId</th>
+            <th>Марка</th>
+            <th>Колір</th>
+            <th>Опис</th>
+            <th>Вартість</th>
+            <th>Доступність</th>
+        </tr>
+        {{#each unusedCars}}
+            <tr>
+                <td>{{this._id}}</td>
+                <td>{{this.branchId}}</td>
+                <td>{{this.brand}}</td>
+                <td>{{this.color}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.cost}}</td>
+                <td>{{this.isActive}}</td>
+            </tr>
+        {{/each}}
+    </table>
+    <h2 style="text-align: center;">Агенти що не заключили угоди</h2>
+    <table style="width: 100%;">
+        <tr>
+            <th>ID</th>
+            <th>branchId</th>
+            <th>Прізвище</th>
+            <th>Ім'я</th>
+            <th>По-батькові</th>
+        </tr>
+        {{#each uselessMonthAgents}}
+            <tr>
+                <td>{{this._id}}</td>
+                <td>{{this.branchId}}</td>
+                <td>{{this.surname}}</td>
+                <td>{{this.firstName}}</td>
+                <td>{{this.secondName}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
+</html>
