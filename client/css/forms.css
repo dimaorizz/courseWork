@@ -54,3 +54,7 @@ input[type="checkbox"] {
     width: 30px;
     height: 18px;
 }
+
+input {
+    text-align: center;
+}

@@ -17,7 +17,7 @@ router.get('/less/:cost', async(req, res) => {
                     $lt: Number(req.params.cost)
                 }
             }
-        }
+        } 
     ])
     res.render('cars', { cars, branches} )
 });

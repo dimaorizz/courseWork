@@ -47,6 +47,17 @@
             <button id="updateButton" type="submit">Зберегти</button>
         </form>
     </div>
+
+    <div class="wrapper">
+        <div class="filters">        
+            <input type="text" id="greaterValue" placeholder="0">
+            <input type="button" id="submitGreater" value="Знайти за ціною більше ніж">
+            <input type="text" id="lessValue" placeholder="0">
+            <input type="button" id="submitLess" value="Знайти за ціною менше ніж">
+        </div>
+    </div>
+    
+    <a href="/cars/active">Показати лише активні авто</a>
     <table style="width: 100%;">
         <tr>
             <th>ID</th>
@@ -75,6 +86,16 @@
 <script>
     document.querySelectorAll('.update').forEach(button => button.addEventListener('click', updateForm));
     document.querySelectorAll('.delete').forEach(button => button.addEventListener('click', deleteCar));
+    document.getElementById('submitGreater').addEventListener('click', findGreater);
+    document.getElementById('submitLess').addEventListener('click', findLess);
+    function findGreater(e) {
+        const cost = document.getElementById('greaterValue').value;
+        window.location.href=`/cars/greater/${cost}`;
+    }
+    function findLess(e) {
+        const cost = document.getElementById('lessValue').value;
+        window.location.href=`/cars/less/${cost}`;
+    }
     function updateForm(e) {
         const carId = e.target.getAttribute('data-id');
         document.getElementById('updateIsActive').removeAttribute('checked');

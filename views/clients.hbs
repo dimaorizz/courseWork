@@ -35,6 +35,16 @@
             <button type="submit" disabled id="updateButton">Зберегти</button>
         </form>
     </div>
+
+    <div class="wrapper" style="margin-top: 10px;">
+        <div class="filters">
+            <input type="text" id="surnameFilter" placeholder="Прізвище">
+            <input type="button" id="submitSurnameFilter" value="Знайти клієнта за прізвищем">
+            <input type="text" id="phoneFilter" placeholder="Номер телефону">
+            <input type="button" id="submitPhoneFilter" value="Знайти клієнта за номером телефону">
+        </div>
+    </div>
+    
     <table style="width: 100%;">
         <tr>
             <th>ID</th>
@@ -63,6 +73,16 @@
 <script>
     document.querySelectorAll('.update').forEach(button => button.addEventListener('click', updateForm));
     document.querySelectorAll('.delete').forEach(button => button.addEventListener('click', deleteClient));
+    document.getElementById('submitSurnameFilter').addEventListener('click', filterSurname);
+    document.getElementById('submitPhoneFilter').addEventListener('click', filterPhone);
+    function filterSurname(e) {
+        const surname = document.getElementById('surnameFilter').value;
+        window.location.href=`/clients/surname?value=${surname}`;
+    }
+    function filterPhone(e) {
+        const phone = document.getElementById('phoneFilter').value;
+        window.location.href=`/clients/phone?value=${phone}`;
+    }
     function updateForm(e) {
         const clientId = e.target.getAttribute('data-id');
         document.getElementById('clientId').innerHTML = clientId;

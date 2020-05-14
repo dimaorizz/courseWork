@@ -16,7 +16,14 @@ router.get('/client?', async (req, res) => {
     const surname = req.query.surname;
     const client = await Clients.findOne({ surname: surname });
     const [deals, branches, agents, cars, clients] = await Promise.all(
-        [Deals.aggregate([
+        [client === null ? Deals.aggregate([
+            {
+                $match: {
+                    clientId: null
+                }
+            }
+            ])
+            :Deals.aggregate([
             {
                 $match: {
                     clientId: client._id

@@ -10,7 +10,7 @@ router.get('/phone?', async(req, res) => {
     const phone = req.query.value.toString();
     const clients = await Clients.aggregate([
         {
-            $lookup: {
+            $match: {
                 phone: phone
             }
         }

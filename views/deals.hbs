@@ -53,6 +53,14 @@
                 <button id="closeButton" type="submit">Зберегти</button>
             </form>
         </div>
+
+    <div class="wrapper" style="margin-top: 10px;">
+        <div class="filters">
+            <input type="text" id="surnameFilter" placeholder="Прізвище">
+            <input type="button" id="submitSurnameFilter" value="Знайти угоду за прізвищем клієнта">
+        </div>
+    </div>
+
     <table style="width: 100%;">
         <tr>
             <th>ID</th>
@@ -96,7 +104,11 @@
     <script>
         document.querySelectorAll('.close').forEach(button => button.addEventListener('click', closeDeal));
         document.querySelectorAll('.delete').forEach(button => button.addEventListener('click', deleteDeal));
-
+        document.getElementById('submitSurnameFilter').addEventListener('click', filterSurname);
+        function filterSurname(e) {
+            const surname = document.getElementById('surnameFilter').value;
+            window.location.href=`/deals/client?surname=${surname}`;
+        }
         function closeDeal(e) {
             const dealId = e.target.getAttribute('data-id');
             document.getElementById('dealId').innerHTML = dealId;
